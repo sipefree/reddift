@@ -192,7 +192,7 @@ extension Session {
     
     /**
     Compose new message to specified user.
-    - parameter to: Account object of user to who you want to send a message.
+    - parameter to: Name of user to who you want to send a message.
     - parameter subject: A string no longer than 100 characters
     - parameter text: Raw markdown text
     - parameter fromSubreddit: Subreddit name?
@@ -201,17 +201,24 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func composeMessage(to: Account, subject: String, text: String, fromSubreddit: Subreddit, captcha: String, captchaIden: String, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        let parameter: [String:String] = [
+    public func composeMessage(to: String, subject: String, text: String, fromSubreddit: Subreddit?, captcha: String, captchaIden: String, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        var parameter: [String:String] = [
             "api_type" : "json",
-            "captcha" : captcha,
-            "iden" : captchaIden,
-            "from_sr" : fromSubreddit.displayName,
             "text" : text,
             "subject" : subject,
-            "to" : to.id
+            "to" : to
         ]
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+        
+        if let subreddit = subreddit {
+            parameter["from_sr"] = fromSubreddit.displayName
+        }
+        
+        if captcha != "" && captchaIden != "" {
+            parameter["captcha"] = captcha
+            parameter["iden"] = captchaIden
+        }
+        
+        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/compose", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         return handleAsJSONRequest(request, completion:completion)
     }
