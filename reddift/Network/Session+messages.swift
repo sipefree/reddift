@@ -209,7 +209,7 @@ extension Session {
             "to" : to
         ]
         
-        if let subreddit = subreddit {
+        if let fromSubreddit = fromSubreddit {
             parameter["from_sr"] = fromSubreddit.displayName
         }
         
