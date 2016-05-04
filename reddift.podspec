@@ -1,18 +1,18 @@
 Pod::Spec.new do |s|
   s.name             = "reddift"
-  s.version          = "1.6.0"
+  s.version          = "1.6.1"
   s.summary          = "Swift Reddit API Wrapper."
   s.description      = <<-DESC
                       reddift is Swift Reddit API Wrapper.
                        - Supports OAuth2(and DOES NOT support Cookie-authentication).
                        - Supports multi-accounts using KeyChain.
                        DESC
-  s.homepage         = "https://github.com/sonsongithub/reddift"
+  s.homepage         = "https://github.com/sipefree/reddift"
   s.license          = 'MIT'
   s.author           = { "sonson" => "yoshida.yuichi@gmail.com" }
   s.source           = {
-    :git => "https://github.com/sonsongithub/reddift.git",
-    :tag => "v#{s.version}",
+    :git => "https://github.com/sipefree/reddift.git",
+    :branch => "patch-1",
     :submodules => true
   }
 
